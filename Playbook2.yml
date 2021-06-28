@@ -16,6 +16,6 @@
   - name: clone repo on the hosts
     git: repo=https://github.com/Vedapani/projCert.git dest={{dest_path}}
   - name: Build the docker file
-    command: chdir=/tmp/gitrepo docker build -t deployimage:devopsedu/webapp .
+    command: chdir=/tmp/gitrepo docker build -t deployimage:webapp .
   - name: Run the image to launch container
-    command: docker run -itd -P deployimage:devopsedu/webapp
+    command: docker run -itd -P deployimage:webapp
