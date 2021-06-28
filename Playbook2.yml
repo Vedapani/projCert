@@ -1,0 +1,21 @@
+
+- hosts: webservers
+  become: true
+  become_user: root
+  vars:
+   dest_path: /var/www/html/
+  tasks:
+  - name: Install Git and docker
+    yum: name={{item}} state=present
+    loop:
+     - git
+     - docker
+     - tree
+  - name: Start docker
+    service: name=docker state=started
+  - name: clone repo on the hosts
+    git: repo=https://github.com/Vedapani/projCert.git dest={{dest_path}}
+  - name: Build the docker file
+    command: chdir=/tmp/gitrepo docker build -t deployimage:devopsedu/webapp .
+  - name: Run the image to launch container
+    command: docker run -itd -P deployimage:devopsedu/webapp
